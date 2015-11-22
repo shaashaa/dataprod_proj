@@ -1,0 +1,43 @@
+GLM prediciton on Old faithful Geyser Data
+========================================================
+author: Shaalini
+date: 22 Nov 2015
+transition: rotate
+font-family: 'Helvetica'
+
+Introduction
+========================================================
+
+- Dataset used for this demo is faithful, Old Faihful Geyser Data. 
+- It contains Waiting time between eruptions (in mins) and the duration of the eruption (in mins) for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.
+
+
+Performing glm fit
+========================================================
+- Faithful is a data frame which has 272 observations on 2 variables.
+```{r}
+data(faithful);
+head(faithful, 3);
+```
+- Have used the glm function of R to do generalised linear model fit.
+```{r}
+glmfit <- glm(eruptions ~ waiting,data=faithful)
+```
+
+glm fit Summary
+========================================================
+```{r, echo=FALSE}
+summary(glmfit)
+```
+
+Plot
+========================================================
+- In this demo have taken one Waiting time (90mins) and predicted its Eruption Duraiton using the predict function on the glm fit.
+<small> In blue is the original data, in red is the predicted data for 90 mins waiting time</small>
+```{r, eval=TRUE, echo=FALSE}
+new <- data.frame(waiting = c(90))
+pred <- predict(glmfit, new, se.fit = TRUE)
+plot(faithful$waiting,faithful$eruptions,main="Waiting time between eruptions vs. Duration of the eruption", pch=19,col="blue",xlab="Waiting time (in mins)",ylab="Eruption Duration (in mins)")
+lines(faithful$waiting,glmfit$fitted,lwd=3)
+points(new, pred$fit,pch=19,col="red")
+```
